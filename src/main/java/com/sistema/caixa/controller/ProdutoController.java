@@ -1,6 +1,7 @@
 package com.sistema.caixa.controller;
 
 import com.sistema.caixa.dto.ProdutoDto;
+import com.sistema.caixa.entities.Produto;
 import com.sistema.caixa.services.ProdutoService;
 import org.apache.coyote.Request;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,5 +24,10 @@ public class ProdutoController {
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
                 .buildAndExpand(dto.id()).toUri();
         return ResponseEntity.created(uri).body(dto);
+    }
+    @PutMapping(value = "/{id}")
+    public ResponseEntity<ProdutoDto> update(@PathVariable  Long id, @RequestBody ProdutoDto dto){
+        dto = service.update(id, dto);
+        return  ResponseEntity.ok(dto);
     }
 }
