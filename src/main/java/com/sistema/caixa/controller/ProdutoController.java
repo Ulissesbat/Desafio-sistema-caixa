@@ -44,4 +44,10 @@ public class ProdutoController {
         Page<ProdutoDto>dto = service.findAll(pageable);
         return  ResponseEntity.ok(dto);
     }
+
+    @GetMapping(value = "/{id}")
+    public ResponseEntity<ProdutoDto> findById(@PathVariable Long id){
+        ProdutoDto prod  = service.findById(id);
+        return ResponseEntity.ok(prod);
+    }
 }

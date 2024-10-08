@@ -14,6 +14,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
 @Service
 public class ProdutoService {
     @Autowired
@@ -58,5 +60,11 @@ public class ProdutoService {
     public Page<ProdutoDto>findAll(Pageable pageable){
         Page<Produto>result = repository.findAll(pageable);
         return result.map(ProdutoDto::new);
+    }
+
+    @Transactional(readOnly = true)
+    public ProdutoDto findById(Long id){
+        Produto produto = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Id não encontrado"));
+        return new ProdutoDto(produto);
     }
 }
