@@ -23,5 +23,4 @@ public class Produto {
 
     private int quantidadeEstoque;
 
-
 }

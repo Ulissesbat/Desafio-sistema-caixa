@@ -6,8 +6,10 @@ import com.sistema.caixa.repositories.ProdutoRepository;
 import com.sistema.caixa.services.exception.DatabaseException;
 import com.sistema.caixa.services.exception.ResourceNotFoundException;
 
+import org.springframework.data.domain.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -51,6 +53,10 @@ public class ProdutoService {
         catch(DataIntegrityViolationException e) {
             throw new DatabaseException("falha de integridade");
         }
-
+    }
+    @Transactional(readOnly = true)
+    public Page<ProdutoDto>findAll(Pageable pageable){
+        Page<Produto>result = repository.findAll(pageable);
+        return result.map(ProdutoDto::new);
     }
 }

@@ -5,6 +5,8 @@ import com.sistema.caixa.entities.Produto;
 import com.sistema.caixa.services.ProdutoService;
 import org.apache.coyote.Request;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -35,5 +37,11 @@ public class ProdutoController {
     public ResponseEntity<Void>delete(@PathVariable Long id){
         service.delete(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping
+    public ResponseEntity<Page<ProdutoDto>>findAll(Pageable pageable){
+        Page<ProdutoDto>dto = service.findAll(pageable);
+        return  ResponseEntity.ok(dto);
     }
 }
