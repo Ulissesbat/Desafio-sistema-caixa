@@ -1,5 +1,6 @@
 package com.sistema.caixa.services;
 
+import com.sistema.caixa.dto.ClienteDto;
 import com.sistema.caixa.dto.ProdutoDto;
 import com.sistema.caixa.entities.Produto;
 import com.sistema.caixa.repositories.ProdutoRepository;
@@ -13,8 +14,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.Optional;
 
 @Service
 public class ProdutoService {
