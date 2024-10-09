@@ -31,4 +31,5 @@ public class IntemVenda {
     public BigDecimal calcularSubTotal() {
         return precoUnitario.multiply(BigDecimal.valueOf(quantidade));
     }
+
 }
