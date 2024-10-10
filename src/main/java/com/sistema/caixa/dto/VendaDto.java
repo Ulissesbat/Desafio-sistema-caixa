@@ -7,11 +7,7 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 
-public record VendaDto( Long id,
-                        ClienteDto cliente,
-                        List<ItemVendaDto> itens,
-                        LocalDateTime dataHora,
-                        BigDecimal valorTotal) {
+public record VendaDto( Long id, ClienteDto cliente, List<ItemVendaDto> itens, LocalDateTime dataHora, BigDecimal valorTotal) {
 
 
     public VendaDto(Venda venda) {

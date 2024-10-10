@@ -26,7 +26,7 @@ public class Venda {
 
     @OneToMany // Uma venda tem muitos itens
     @JoinColumn(name = "venda_id")
-    private List<IntemVenda> itens;
+    private List<ItemVenda> itens;
 
     private LocalDateTime dataHora;
 
@@ -34,7 +34,7 @@ public class Venda {
 
     public BigDecimal calculoTotalDaVenda(){
         BigDecimal total = BigDecimal.ZERO;
-        for( IntemVenda item : itens){
+        for( ItemVenda item : itens){
             total = total.add(item.calcularSubTotal());
         }
         return total;

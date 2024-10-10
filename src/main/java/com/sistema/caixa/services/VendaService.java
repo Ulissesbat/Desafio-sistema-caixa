@@ -1,8 +1,15 @@
 package com.sistema.caixa.services;
 
 import com.sistema.caixa.dto.ClienteDto;
+import com.sistema.caixa.dto.ItemVendaDto;
+import com.sistema.caixa.dto.VendaDto;
 import com.sistema.caixa.entities.Cliente;
+import com.sistema.caixa.entities.ItemVenda;
+import com.sistema.caixa.entities.Produto;
+import com.sistema.caixa.entities.Venda;
 import com.sistema.caixa.repositories.ClienteRepository;
+import com.sistema.caixa.repositories.ProdutoRepository;
+import com.sistema.caixa.repositories.VendaRepository;
 import com.sistema.caixa.services.exception.DatabaseException;
 import com.sistema.caixa.services.exception.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,55 +20,67 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 public class VendaService {
     @Autowired
-    private ClienteRepository repository;
+    private VendaRepository vendaRepository;
+    @Autowired
+    private ProdutoRepository produtoRepository;
+    @Autowired
+    private ClienteRepository clienteRepository;
+
     @Transactional
-    public ClienteDto insert(ClienteDto dto){
-        Cliente entity = new Cliente();
+    public VendaDto insert(VendaDto dto) {
+        Venda entity = new Venda();
 
-        entity.setNome(dto.nome());
-        entity.setCpf(dto.cpf());
-        entity.setEmail(dto.email());
+        // Atribuindo os dados básicos da venda
+        Cliente cliente = clienteRepository.findById(dto.cliente().id())
+                .orElseThrow(() -> new ResourceNotFoundException("Cliente não encontrado: " + dto.cliente().id()));
 
-        entity = repository.save(entity);
+        entity.setCliente(cliente);
 
-        return new ClienteDto(entity);
-    }
-    @Transactional
-    public ClienteDto update(Long id, ClienteDto dto) {
+        // Iterar pelos itens da venda
+        List<ItemVenda> itensVenda = new ArrayList<>();
 
-        Cliente entity = repository.getReferenceById(id);
-        entity.setNome(dto.nome());
-        entity.setCpf(dto.cpf());
-        entity.setEmail(dto.email());
+        for (ItemVendaDto itemDto : dto.itens()) {
+            Produto produto = produtoRepository.findById(itemDto.produtoId())
+                    .orElseThrow(() -> new ResourceNotFoundException("Produto não encontrado: " + itemDto.produtoId()));
 
-        entity = repository.save(entity);
+            // Verificar se há estoque suficiente
+            if (produto.getQuantidadeEstoque() < itemDto.quantidade()) {
+                throw new BusinessException("Estoque insuficiente para o produto: " + produto.getNome());
+            }
 
-        return new ClienteDto(entity);
-    }
-    @Transactional(propagation = Propagation.SUPPORTS)
-    public void delete (Long id) {
-        if(! repository.existsById(id)){
-            throw new ResourceNotFoundException("Recurso não encontrado");
+            // Reduzir o estoque do produto
+            produto.setQuantidadeEstoque(produto.getQuantidadeEstoque() - itemDto.quantidade());
+            produtoRepository.save(produto);
+
+            // Criar o item da venda
+            ItemVenda itemVenda = new ItemVenda();
+            itemVenda.setProduto(produto);
+            itemVenda.setQuantidade(itemDto.quantidade());
+            itemVenda.setPrecoUnitario(itemDto.precoUnitario());
+            itemVenda.setSubTotal(itemVenda.calcularSubTotal());  // Calcular o subtotal
+            itemVenda.setVenda(entity);  // Associa o ItemVenda à Venda
+            itensVenda.add(itemVenda);
+
         }
-        try {
-            repository.deleteById(id);
-        }
-        catch(DataIntegrityViolationException e) {
-            throw new DatabaseException("falha de integridade");
-        }
-    }
-    @Transactional(readOnly = true)
-    public Page<ClienteDto>findAll(Pageable pageable){
-        Page<Cliente>result = repository.findAll(pageable);
-        return result.map(ClienteDto::new);
+
+        // Definir os itens e valor total da venda
+        entity.setItens(itensVenda);
+
+        entity.setDataHora(dto.dataHora());
+
+        entity.setValorTotal(entity.calculoTotalDaVenda());
+
+        // Salvar a venda
+        entity = vendaRepository.save(entity);
+
+        return new VendaDto(entity);
     }
 
-    @Transactional(readOnly = true)
-    public ClienteDto findById(Long id){
-        Cliente cliente = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Id não encontrado"));
-        return new ClienteDto(cliente);
-    }
 }
