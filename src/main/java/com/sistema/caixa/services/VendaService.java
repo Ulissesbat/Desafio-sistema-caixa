@@ -83,4 +83,14 @@ public class VendaService {
         return new VendaDto(entity);
     }
 
+    @Transactional(readOnly = true)
+    public Page<VendaDto>findAll(Pageable pageable){
+        Page<Venda>result = vendaRepository.findAll(pageable);
+        return result.map(VendaDto::new);
+    }
+    @Transactional(readOnly = true)
+    public VendaDto findById(Long id){
+        Venda venda = vendaRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Id não encontrado"));
+        return new VendaDto(venda);
+    }
 }

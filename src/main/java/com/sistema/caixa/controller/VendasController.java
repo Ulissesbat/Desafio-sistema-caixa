@@ -26,5 +26,14 @@ public class VendasController {
                 .buildAndExpand(dto.id()).toUri();
         return ResponseEntity.created(uri).body(dto);
     }
-
+    @GetMapping
+    public ResponseEntity<Page<VendaDto>>findAll(Pageable pageable){
+        Page<VendaDto>dto = service.findAll(pageable);
+        return  ResponseEntity.ok(dto);
+    }
+    @GetMapping(value = "/{id}")
+    public ResponseEntity<VendaDto> findById(@PathVariable Long id){
+        VendaDto venda  = service.findById(id);
+        return ResponseEntity.ok(venda);
+    }
 }
