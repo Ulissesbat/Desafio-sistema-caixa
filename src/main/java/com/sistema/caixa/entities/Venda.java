@@ -24,8 +24,7 @@ public class Venda {
     @JoinColumn(name = "cliente_id", nullable = false)
     private Cliente cliente;
 
-    @OneToMany // Uma venda tem muitos itens
-    @JoinColumn(name = "venda_id")
+    @OneToMany(mappedBy = "venda", cascade = CascadeType.ALL, orphanRemoval = true) // Uma venda tem muitos itens
     private List<ItemVenda> itens;
 
     private LocalDateTime dataHora;
