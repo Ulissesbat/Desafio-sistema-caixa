@@ -66,4 +66,14 @@ public class ProdutoService {
         Produto produto = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Id não encontrado"));
         return new ProdutoDto(produto);
     }
+        @Autowired
+        private ProdutoRepository produtoRepository;
+
+        @Transactional(readOnly = true)
+        public Page<ProdutoDto> findLowStock(int quantidade, Pageable pageable) {
+            Page<Produto> produtos = produtoRepository.findByQuantidadeEstoqueLessThanEqual(quantidade, pageable);
+
+            return produtos.map(ProdutoDto::new);
+        }
+
 }

@@ -50,4 +50,13 @@ public class ProdutoController {
         ProdutoDto prod  = service.findById(id);
         return ResponseEntity.ok(prod);
     }
+
+    @Autowired
+    private ProdutoService produtoService;
+
+    @GetMapping("/low-stock/{quantidade}")
+    public ResponseEntity<Page<ProdutoDto>> getLowStockProducts(@PathVariable int quantidade, Pageable pageable) {
+        Page<ProdutoDto> produtos = produtoService.findLowStock(quantidade, pageable);
+        return ResponseEntity.ok(produtos);
+    }
 }
