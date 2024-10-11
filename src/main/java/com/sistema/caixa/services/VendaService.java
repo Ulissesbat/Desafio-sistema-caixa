@@ -93,5 +93,4 @@ public class VendaService {
         Venda venda = vendaRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Id não encontrado"));
         return new VendaDto(venda);
     }
-
 }
