@@ -1,6 +1,5 @@
 package com.sistema.caixa.services;
 
-import com.sistema.caixa.dto.ClienteDto;
 import com.sistema.caixa.dto.ItemVendaDto;
 import com.sistema.caixa.dto.VendaDto;
 import com.sistema.caixa.entities.Cliente;
@@ -10,17 +9,14 @@ import com.sistema.caixa.entities.Venda;
 import com.sistema.caixa.repositories.ClienteRepository;
 import com.sistema.caixa.repositories.ProdutoRepository;
 import com.sistema.caixa.repositories.VendaRepository;
-import com.sistema.caixa.services.exception.DatabaseException;
+import com.sistema.caixa.services.exception.BusinessException;
 import com.sistema.caixa.services.exception.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 

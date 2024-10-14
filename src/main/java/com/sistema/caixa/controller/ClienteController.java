@@ -3,6 +3,7 @@ package com.sistema.caixa.controller;
 import com.sistema.caixa.dto.ClienteDto;
 import com.sistema.caixa.services.ClienteService;
 import com.sistema.caixa.services.ProdutoService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -18,7 +19,7 @@ public class ClienteController {
     @Autowired
     private ClienteService service;
     @PostMapping
-    public ResponseEntity< ClienteDto> insert (@RequestBody ClienteDto dto){
+    public ResponseEntity< ClienteDto> insert (@Valid @RequestBody ClienteDto dto){
         dto = service.insert(dto);
 
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
@@ -26,7 +27,7 @@ public class ClienteController {
         return ResponseEntity.created(uri).body(dto);
     }
     @PutMapping(value = "/{id}")
-    public ResponseEntity<ClienteDto> update(@PathVariable  Long id, @RequestBody ClienteDto dto){
+    public ResponseEntity<ClienteDto> update(@PathVariable  Long id, @Valid @RequestBody ClienteDto dto){
         dto = service.update(id, dto);
         return  ResponseEntity.ok(dto);
     }

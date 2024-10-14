@@ -1,4 +1,4 @@
-package com.sistema.caixa.services;
+package com.sistema.caixa.services.exception;
 
 public class BusinessException extends RuntimeException{
 
