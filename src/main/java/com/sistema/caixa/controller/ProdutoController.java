@@ -3,6 +3,7 @@ package com.sistema.caixa.controller;
 import com.sistema.caixa.dto.ProdutoDto;
 import com.sistema.caixa.entities.Produto;
 import com.sistema.caixa.services.ProdutoService;
+import jakarta.validation.Valid;
 import org.apache.coyote.Request;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -20,7 +21,7 @@ public class ProdutoController {
     @Autowired
     private ProdutoService service;
     @PostMapping
-    public ResponseEntity< ProdutoDto> insert (@RequestBody ProdutoDto dto){
+    public ResponseEntity< ProdutoDto> insert (@Valid @RequestBody ProdutoDto dto){
         dto = service.insert(dto);
 
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
@@ -28,7 +29,7 @@ public class ProdutoController {
         return ResponseEntity.created(uri).body(dto);
     }
     @PutMapping(value = "/{id}")
-    public ResponseEntity<ProdutoDto> update(@PathVariable  Long id, @RequestBody ProdutoDto dto){
+    public ResponseEntity<ProdutoDto> update(@PathVariable  Long id, @Valid @RequestBody ProdutoDto dto){
         dto = service.update(id, dto);
         return  ResponseEntity.ok(dto);
     }
