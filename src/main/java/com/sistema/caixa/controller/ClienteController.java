@@ -1,6 +1,7 @@
 package com.sistema.caixa.controller;
 
 import com.sistema.caixa.dto.ClienteDto;
+import com.sistema.caixa.dto.CustomerMinDto;
 import com.sistema.caixa.services.ClienteService;
 import com.sistema.caixa.services.ProdutoService;
 import jakarta.validation.Valid;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
+import java.util.List;
 
 @RestController
 @RequestMapping("cliente")
@@ -48,5 +50,11 @@ public class ClienteController {
     public ResponseEntity<ClienteDto> findById(@PathVariable Long id){
         ClienteDto prod  = service.findById(id);
         return ResponseEntity.ok(prod);
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity<List<CustomerMinDto>> findByName(@RequestParam String name) {
+        List<CustomerMinDto> result = service.findByMin(name);
+        return ResponseEntity.ok(result);
     }
 }
