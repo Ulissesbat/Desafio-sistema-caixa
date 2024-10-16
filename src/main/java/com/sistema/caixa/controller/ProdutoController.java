@@ -1,5 +1,7 @@
 package com.sistema.caixa.controller;
 
+import com.sistema.caixa.dto.CustomerMinDto;
+import com.sistema.caixa.dto.ProductMinDto;
 import com.sistema.caixa.dto.ProdutoDto;
 import com.sistema.caixa.entities.Produto;
 import com.sistema.caixa.services.ProdutoService;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
+import java.util.List;
 
 @RestController
 @RequestMapping("produto")
@@ -59,5 +62,10 @@ public class ProdutoController {
     public ResponseEntity<Page<ProdutoDto>> getLowStockProducts(@PathVariable int quantidade, Pageable pageable) {
         Page<ProdutoDto> produtos = produtoService.findLowStock(quantidade, pageable);
         return ResponseEntity.ok(produtos);
+    }
+    @GetMapping("/search")
+    public ResponseEntity<List<ProductMinDto>> findByName(@RequestParam String name) {
+        List<ProductMinDto> result = service.findByMin(name);
+        return ResponseEntity.ok(result);
     }
 }

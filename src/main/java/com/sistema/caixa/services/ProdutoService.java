@@ -1,8 +1,12 @@
 package com.sistema.caixa.services;
 
 import com.sistema.caixa.dto.ClienteDto;
+import com.sistema.caixa.dto.CustomerMinDto;
+import com.sistema.caixa.dto.ProductMinDto;
 import com.sistema.caixa.dto.ProdutoDto;
 import com.sistema.caixa.entities.Produto;
+import com.sistema.caixa.projection.CustomerMinProjection;
+import com.sistema.caixa.projection.ProductMinProjection;
 import com.sistema.caixa.repositories.ProdutoRepository;
 import com.sistema.caixa.services.exception.DatabaseException;
 import com.sistema.caixa.services.exception.ResourceNotFoundException;
@@ -14,6 +18,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class ProdutoService {
@@ -75,5 +82,9 @@ public class ProdutoService {
 
             return produtos.map(ProdutoDto::new);
         }
-
+    @Transactional(readOnly = true)
+    public List<ProductMinDto> findByMin(String name) {
+        List<ProductMinProjection> projections = repository.projection(name);
+        return projections.stream().map(ProductMinDto::new).collect(Collectors.toList());
+    }
 }
