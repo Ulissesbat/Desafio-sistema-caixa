@@ -8,7 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.List;
 
 public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
-    @Query(nativeQuery = true, value = "SELECT nome FROM tb_clientes WHERE UPPER(nome) LIKE UPPER(CONCAT('%', :nome, '%'))")
+    @Query(nativeQuery = true, value = "SELECT nome FROM tb_usuarios WHERE UPPER(nome) LIKE UPPER(CONCAT('%', :nome, '%'))")
     List<CustomerMinProjection> projection(String nome);
 
 

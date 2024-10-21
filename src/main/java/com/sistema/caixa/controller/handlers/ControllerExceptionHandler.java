@@ -5,6 +5,8 @@ import com.sistema.caixa.dto.ValidationError;
 import com.sistema.caixa.services.exception.BusinessException;
 import com.sistema.caixa.services.exception.DatabaseException;
 import com.sistema.caixa.services.exception.ResourceNotFoundException;
+import jakarta.persistence.EntityExistsException;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -35,6 +37,13 @@ public class ControllerExceptionHandler {
     public ResponseEntity<CustomError> businessException(BusinessException e, HttpServletRequest request) {
         HttpStatus status = HttpStatus.NOT_FOUND;
         CustomError error = new CustomError(Instant.now(), status.value(), e.getMessage(), request.getRequestURI());
+        return ResponseEntity.status(status).body(error);
+    }
+
+    @ExceptionHandler(EntityNotFoundException.class)
+    public ResponseEntity<CustomError> entityNotFoundException(EntityNotFoundException e, HttpServletRequest request) {
+        HttpStatus status = HttpStatus.NOT_FOUND;
+        CustomError error = new CustomError(Instant.now(), status.value(), "Usuario nao encontrado", request.getRequestURI());
         return ResponseEntity.status(status).body(error);
     }
 
