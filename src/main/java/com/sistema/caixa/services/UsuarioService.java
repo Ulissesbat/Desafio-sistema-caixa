@@ -1,12 +1,10 @@
 package com.sistema.caixa.services;
 
-import com.sistema.caixa.dto.ClienteDto;
+import com.sistema.caixa.dto.UsuarioDto;
 import com.sistema.caixa.dto.CustomerMinDto;
-import com.sistema.caixa.entities.Cliente;
-import com.sistema.caixa.entities.Produto;
+import com.sistema.caixa.entities.Usuario;
 import com.sistema.caixa.projection.CustomerMinProjection;
-import com.sistema.caixa.repositories.ClienteRepository;
-import com.sistema.caixa.repositories.ProdutoRepository;
+import com.sistema.caixa.repositories.UsuarioRepository;
 import com.sistema.caixa.services.exception.DatabaseException;
 import com.sistema.caixa.services.exception.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,12 +19,12 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class ClienteService {
+public class UsuarioService {
     @Autowired
-    private ClienteRepository repository;
+    private UsuarioRepository repository;
     @Transactional
-    public ClienteDto insert(ClienteDto dto){
-        Cliente entity = new Cliente();
+    public UsuarioDto insert(UsuarioDto dto){
+        Usuario entity = new Usuario();
 
         entity.setNome(dto.nome());
         entity.setCpf(dto.cpf());
@@ -34,19 +32,19 @@ public class ClienteService {
 
         entity = repository.save(entity);
 
-        return new ClienteDto(entity);
+        return new UsuarioDto(entity);
     }
     @Transactional
-    public ClienteDto update(Long id, ClienteDto dto) {
+    public UsuarioDto update(Long id, UsuarioDto dto) {
 
-        Cliente entity = repository.getReferenceById(id);
+        Usuario entity = repository.getReferenceById(id);
         entity.setNome(dto.nome());
         entity.setCpf(dto.cpf());
         entity.setEmail(dto.email());
 
         entity = repository.save(entity);
 
-        return new ClienteDto(entity);
+        return new UsuarioDto(entity);
     }
     @Transactional(propagation = Propagation.SUPPORTS)
     public void delete (Long id) {
@@ -61,15 +59,15 @@ public class ClienteService {
         }
     }
     @Transactional(readOnly = true)
-    public Page<ClienteDto>findAll(Pageable pageable){
-        Page<Cliente>result = repository.findAll(pageable);
-        return result.map(ClienteDto::new);
+    public Page<UsuarioDto>findAll(Pageable pageable){
+        Page<Usuario>result = repository.findAll(pageable);
+        return result.map(UsuarioDto::new);
     }
 
     @Transactional(readOnly = true)
-    public ClienteDto findById(Long id){
-        Cliente cliente = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Id não encontrado"));
-        return new ClienteDto(cliente);
+    public UsuarioDto findById(Long id){
+        Usuario cliente = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Id não encontrado"));
+        return new UsuarioDto(cliente);
     }
 
     @Transactional(readOnly = true)

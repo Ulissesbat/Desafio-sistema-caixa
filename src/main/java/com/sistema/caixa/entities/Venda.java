@@ -21,8 +21,8 @@ public class Venda {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "cliente_id", nullable = false)
-    private Cliente cliente;
+    @JoinColumn(name = "usuario_id", nullable = false)
+    private Usuario cliente;
 
     @OneToMany(mappedBy = "venda", cascade = CascadeType.ALL, orphanRemoval = true) // Uma venda tem muitos itens
     private List<ItemVenda> itens;

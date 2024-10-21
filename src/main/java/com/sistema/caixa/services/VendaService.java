@@ -2,11 +2,11 @@ package com.sistema.caixa.services;
 
 import com.sistema.caixa.dto.ItemVendaDto;
 import com.sistema.caixa.dto.VendaDto;
-import com.sistema.caixa.entities.Cliente;
+import com.sistema.caixa.entities.Usuario;
 import com.sistema.caixa.entities.ItemVenda;
 import com.sistema.caixa.entities.Produto;
 import com.sistema.caixa.entities.Venda;
-import com.sistema.caixa.repositories.ClienteRepository;
+import com.sistema.caixa.repositories.UsuarioRepository;
 import com.sistema.caixa.repositories.ProdutoRepository;
 import com.sistema.caixa.repositories.VendaRepository;
 import com.sistema.caixa.services.exception.BusinessException;
@@ -27,15 +27,15 @@ public class VendaService {
     @Autowired
     private ProdutoRepository produtoRepository;
     @Autowired
-    private ClienteRepository clienteRepository;
+    private UsuarioRepository clienteRepository;
 
     @Transactional
     public VendaDto insert(VendaDto dto) {
         Venda entity = new Venda();
 
         // Atribuindo os dados básicos da venda
-        Cliente cliente = clienteRepository.findById(dto.cliente().id())
-                .orElseThrow(() -> new ResourceNotFoundException("Cliente não encontrado: " + dto.cliente().id()));
+        Usuario cliente = clienteRepository.findById(dto.cliente().id())
+                .orElseThrow(() -> new ResourceNotFoundException("Usuario não encontrado: " + dto.cliente().id()));
 
         entity.setCliente(cliente);
 

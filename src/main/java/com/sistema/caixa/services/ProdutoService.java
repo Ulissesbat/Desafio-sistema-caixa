@@ -1,11 +1,8 @@
 package com.sistema.caixa.services;
 
-import com.sistema.caixa.dto.ClienteDto;
-import com.sistema.caixa.dto.CustomerMinDto;
 import com.sistema.caixa.dto.ProductMinDto;
 import com.sistema.caixa.dto.ProdutoDto;
 import com.sistema.caixa.entities.Produto;
-import com.sistema.caixa.projection.CustomerMinProjection;
 import com.sistema.caixa.projection.ProductMinProjection;
 import com.sistema.caixa.repositories.ProdutoRepository;
 import com.sistema.caixa.services.exception.DatabaseException;

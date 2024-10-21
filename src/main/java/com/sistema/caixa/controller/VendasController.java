@@ -1,8 +1,6 @@
 package com.sistema.caixa.controller;
 
-import com.sistema.caixa.dto.ClienteDto;
 import com.sistema.caixa.dto.VendaDto;
-import com.sistema.caixa.services.ClienteService;
 import com.sistema.caixa.services.VendaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
