@@ -17,10 +17,15 @@ public record UsuarioDto(Long id,
 
                          @NotBlank(message = "O e-mail não pode estar em branco.")
                          @Email(message = "E-mail deve ser válido.")
-                         String email) {
+                         String email,
+                         @NotBlank(message = "A senha é obrigatória")
+                         @Size(min = 8, message = "A senha deve ter no mínimo 8 caracteres")
+                         String passaword)
+
+{
 
     public UsuarioDto(Usuario entity){
 
-        this(entity.getId(), entity.getNome(), entity.getCpf(), entity.getEmail());
+        this(entity.getId(), entity.getNome(), entity.getCpf(), entity.getEmail(), entity.getPassword());
     }
 }

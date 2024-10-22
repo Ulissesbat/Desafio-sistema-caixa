@@ -18,20 +18,20 @@ INSERT INTO tb_produtos (nome, preco, quantidade_estoque) VALUES ('Anel de Forma
 INSERT INTO tb_produtos (nome, preco, quantidade_estoque) VALUES ('Relógio Clássico Analógico', 349.90, 12);
 
 
-INSERT INTO tb_usuarios (nome, cpf, email) VALUES ('Pedro Santos', '11122233344', 'pedro.santos@example.com');
-INSERT INTO tb_usuarios (nome, cpf, email) VALUES ('Ana Souza', '55566677788', 'ana.souza@example.com');
-INSERT INTO tb_usuarios (nome, cpf, email) VALUES ('Carlos Pereira', '99988877766', 'carlos.pereira@example.com');
-INSERT INTO tb_usuarios (nome, cpf, email) VALUES ('Fernanda Costa', '12312312312', 'fernanda.costa@example.com');
-INSERT INTO tb_usuarios (nome, cpf, email) VALUES ('Bruno Almeida', '32132132132', 'bruno.almeida@example.com');
-INSERT INTO tb_usuarios (nome, cpf, email) VALUES ('Juliana Nunes', '45645645645', 'juliana.nunes@example.com');
-INSERT INTO tb_usuarios (nome, cpf, email) VALUES ('Marcelo Rocha', '78978978978', 'marcelo.rocha@example.com');
-INSERT INTO tb_usuarios (nome, cpf, email) VALUES ('Patrícia Lima', '01201201201', 'patricia.lima@example.com');
-INSERT INTO tb_usuarios (nome, cpf, email) VALUES ('Gustavo Mendes', '34534534534', 'gustavo.mendes@example.com');
-INSERT INTO tb_usuarios (nome, cpf, email) VALUES ('Bianca Ferreira', '67867867867', 'bianca.ferreira@example.com');
-INSERT INTO tb_usuarios (nome, cpf, email) VALUES ('Ricardo Carvalho', '90190190190', 'ricardo.carvalho@example.com');
-INSERT INTO tb_usuarios (nome, cpf, email) VALUES ('Amanda Duarte', '23423423423', 'amanda.duarte@example.com');
-INSERT INTO tb_usuarios (nome, cpf, email) VALUES ('Leonardo Barbosa', '56756756756', 'leonardo.barbosa@example.com');
-INSERT INTO tb_usuarios (nome, cpf, email) VALUES ('João da Silva', '12345678900', 'joao.silva@example.com');
+INSERT INTO tb_usuarios (nome, cpf, email,password) VALUES ('Pedro Santos', '11122233344', 'pedro.santos@example.com', '$2a$10$VUbRSTk7cPEa9C4.cKH/P.maf9WwqInwamg3ZLHskJFr6y99rzjRC');
+INSERT INTO tb_usuarios (nome, cpf, email,password) VALUES ('Ana Souza', '55566677788', 'ana.souza@example.com', '$2a$10$VUbRSTk7cPEa9C4.cKH/P.maf9WwqInwamg3ZLHskJFr6y99rzjRC');
+INSERT INTO tb_usuarios (nome, cpf, email,password) VALUES ('Carlos Pereira', '99988877766', 'carlos.pereira@example.com', '$2a$10$VUbRSTk7cPEa9C4.cKH/P.maf9WwqInwamg3ZLHskJFr6y99rzjRC');
+INSERT INTO tb_usuarios (nome, cpf, email,password) VALUES ('Fernanda Costa', '12312312312', 'fernanda.costa@example.com', '$2a$10$VUbRSTk7cPEa9C4.cKH/P.maf9WwqInwamg3ZLHskJFr6y99rzjRC');
+INSERT INTO tb_usuarios (nome, cpf, email,password) VALUES ('Bruno Almeida', '32132132132', 'bruno.almeida@example.com', '$2a$10$VUbRSTk7cPEa9C4.cKH/P.maf9WwqInwamg3ZLHskJFr6y99rzjRC');
+INSERT INTO tb_usuarios (nome, cpf, email,password) VALUES ('Juliana Nunes', '45645645645', 'juliana.nunes@example.com', '$2a$10$VUbRSTk7cPEa9C4.cKH/P.maf9WwqInwamg3ZLHskJFr6y99rzjRC');
+INSERT INTO tb_usuarios (nome, cpf, email,password) VALUES ('Marcelo Rocha', '78978978978', 'marcelo.rocha@example.com', '$2a$10$VUbRSTk7cPEa9C4.cKH/P.maf9WwqInwamg3ZLHskJFr6y99rzjRC');
+INSERT INTO tb_usuarios (nome, cpf, email,password) VALUES ('Patrícia Lima', '01201201201', 'patricia.lima@example.com', '$2a$10$VUbRSTk7cPEa9C4.cKH/P.maf9WwqInwamg3ZLHskJFr6y99rzjRC');
+INSERT INTO tb_usuarios (nome, cpf, email,password) VALUES ('Gustavo Mendes', '34534534534', 'gustavo.mendes@example.com', '$2a$10$VUbRSTk7cPEa9C4.cKH/P.maf9WwqInwamg3ZLHskJFr6y99rzjRC');
+INSERT INTO tb_usuarios (nome, cpf, email,password) VALUES ('Bianca Ferreira', '67867867867', 'bianca.ferreira@example.com', '$2a$10$VUbRSTk7cPEa9C4.cKH/P.maf9WwqInwamg3ZLHskJFr6y99rzjRC');
+INSERT INTO tb_usuarios (nome, cpf, email,password) VALUES ('Ricardo Carvalho', '90190190190', 'ricardo.carvalho@example.com', '$2a$10$VUbRSTk7cPEa9C4.cKH/P.maf9WwqInwamg3ZLHskJFr6y99rzjRC');
+INSERT INTO tb_usuarios (nome, cpf, email,password) VALUES ('Amanda Duarte', '23423423423', 'amanda.duarte@example.com', '$2a$10$VUbRSTk7cPEa9C4.cKH/P.maf9WwqInwamg3ZLHskJFr6y99rzjRC');
+INSERT INTO tb_usuarios (nome, cpf, email,password) VALUES ('Leonardo Barbosa', '56756756756', 'leonardo.barbosa@example.com', '$2a$10$VUbRSTk7cPEa9C4.cKH/P.maf9WwqInwamg3ZLHskJFr6y99rzjRC');
+INSERT INTO tb_usuarios (nome, cpf, email,password) VALUES ('João da Silva', '12345678900', 'joao.silva@example.com', '$2a$10$VUbRSTk7cPEa9C4.cKH/P.maf9WwqInwamg3ZLHskJFr6y99rzjRC');
 
 
 INSERT INTO tb_role (authority) VALUES ('ROLE_OPERATOR');
