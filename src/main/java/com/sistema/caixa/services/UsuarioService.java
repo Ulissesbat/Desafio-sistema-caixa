@@ -2,8 +2,10 @@ package com.sistema.caixa.services;
 
 import com.sistema.caixa.dto.UsuarioDto;
 import com.sistema.caixa.dto.CustomerMinDto;
+import com.sistema.caixa.entities.Role;
 import com.sistema.caixa.entities.Usuario;
 import com.sistema.caixa.projection.CustomerMinProjection;
+import com.sistema.caixa.projection.UserDetailsProjection;
 import com.sistema.caixa.repositories.UsuarioRepository;
 import com.sistema.caixa.services.exception.DatabaseException;
 import com.sistema.caixa.services.exception.ResourceNotFoundException;
@@ -11,6 +13,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,7 +24,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class UsuarioService {
+public class UsuarioService implements UserDetailsService {
     @Autowired
     private UsuarioRepository repository;
     @Transactional
@@ -74,5 +79,22 @@ public class UsuarioService {
     public List<CustomerMinDto> findByMin(String name) {
         List<CustomerMinProjection> projections = repository.projection(name);
         return projections.stream().map(CustomerMinDto::new).collect(Collectors.toList());
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        List<UserDetailsProjection> result = repository.searchUserAndRolesByEmail(username);
+        if(result.isEmpty()){
+            throw new UsernameNotFoundException("Usuario não encontrado");
+        }
+
+        Usuario usuario = new Usuario();
+        usuario.setEmail(username);
+        usuario.setPassword(result.get(0).getPassword());
+        for(UserDetailsProjection projection : result){
+            usuario.addRole(new Role(projection.getRoleId(), projection.getAuthority()));
+        }
+
+        return usuario;
     }
 }
