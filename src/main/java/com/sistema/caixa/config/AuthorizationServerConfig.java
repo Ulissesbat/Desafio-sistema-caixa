@@ -18,6 +18,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -47,7 +48,9 @@ import org.springframework.security.oauth2.server.authorization.token.OAuth2Toke
 import org.springframework.security.oauth2.server.authorization.token.OAuth2TokenGenerator;
 import org.springframework.security.web.SecurityFilterChain;
 
-
+import com.sistema.caixa.config.customgrant.CustomPasswordAuthenticationConverter;
+import com.sistema.caixa.config.customgrant.CustomPasswordAuthenticationProvider;
+import com.sistema.caixa.config.customgrant.CustomUserAuthorities;
 import com.nimbusds.jose.jwk.JWKSet;
 import com.nimbusds.jose.jwk.RSAKey;
 import com.nimbusds.jose.jwk.source.JWKSource;
@@ -153,7 +156,7 @@ public class AuthorizationServerConfig {
 		return context -> {
 			OAuth2ClientAuthenticationToken principal = context.getPrincipal();
 			CustomUserAuthorities user = (CustomUserAuthorities) principal.getDetails();
-			List<String> authorities = user.getAuthorities().stream().map(x -> x.getAuthority()).toList();
+			List<String> authorities = user.getAuthorities().stream().map(GrantedAuthority::getAuthority).toList();
 			if (context.getTokenType().getValue().equals("access_token")) {
 				// @formatter:off
 				context.getClaims()

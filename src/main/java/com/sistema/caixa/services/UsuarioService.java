@@ -34,6 +34,7 @@ public class UsuarioService implements UserDetailsService {
         entity.setNome(dto.nome());
         entity.setCpf(dto.cpf());
         entity.setEmail(dto.email());
+        entity.setPassword(dto.password());
 
         entity = repository.save(entity);
 
@@ -46,6 +47,8 @@ public class UsuarioService implements UserDetailsService {
         entity.setNome(dto.nome());
         entity.setCpf(dto.cpf());
         entity.setEmail(dto.email());
+        entity.setPassword(dto.password());
+
 
         entity = repository.save(entity);
 
