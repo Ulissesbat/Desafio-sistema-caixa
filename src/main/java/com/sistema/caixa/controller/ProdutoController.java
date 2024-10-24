@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -23,6 +24,7 @@ import java.util.List;
 public class ProdutoController {
     @Autowired
     private ProdutoService service;
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping
     public ResponseEntity< ProdutoDto> insert (@Valid @RequestBody ProdutoDto dto){
         dto = service.insert(dto);
@@ -31,12 +33,13 @@ public class ProdutoController {
                 .buildAndExpand(dto.id()).toUri();
         return ResponseEntity.created(uri).body(dto);
     }
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PutMapping(value = "/{id}")
     public ResponseEntity<ProdutoDto> update(@PathVariable  Long id, @Valid @RequestBody ProdutoDto dto){
         dto = service.update(id, dto);
         return  ResponseEntity.ok(dto);
     }
-
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<Void>delete(@PathVariable Long id){
         service.delete(id);
@@ -48,7 +51,7 @@ public class ProdutoController {
         Page<ProdutoDto>dto = service.findAll(pageable);
         return  ResponseEntity.ok(dto);
     }
-
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_OPERATOR')")
     @GetMapping(value = "/{id}")
     public ResponseEntity<ProdutoDto> findById(@PathVariable Long id){
         ProdutoDto prod  = service.findById(id);
@@ -57,12 +60,13 @@ public class ProdutoController {
 
     @Autowired
     private ProdutoService produtoService;
-
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/low-stock/{quantidade}")
     public ResponseEntity<Page<ProdutoDto>> getLowStockProducts(@PathVariable int quantidade, Pageable pageable) {
         Page<ProdutoDto> produtos = produtoService.findLowStock(quantidade, pageable);
         return ResponseEntity.ok(produtos);
     }
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/search")
     public ResponseEntity<List<ProductMinDto>> findByName(@RequestParam String name) {
         List<ProductMinDto> result = service.findByMin(name);
