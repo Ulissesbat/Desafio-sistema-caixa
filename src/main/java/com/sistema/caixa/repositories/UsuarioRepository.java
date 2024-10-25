@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
     @Query(nativeQuery = true, value = "SELECT nome FROM tb_usuarios WHERE UPPER(nome) LIKE UPPER(CONCAT('%', :nome, '%'))")
@@ -20,4 +21,5 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
             """)
     List<UserDetailsProjection> searchUserAndRolesByEmail(String email);
 
+    Optional<Usuario> findByEmail(String username);
 }

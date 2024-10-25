@@ -2,6 +2,7 @@ package com.sistema.caixa.controller;
 
 import com.sistema.caixa.dto.UsuarioDto;
 import com.sistema.caixa.dto.CustomerMinDto;
+import com.sistema.caixa.dto.UsuarioDtoMe;
 import com.sistema.caixa.services.UsuarioService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,5 +60,12 @@ public class UsuarioController {
     public ResponseEntity<List<CustomerMinDto>> findByName(@RequestParam String name) {
         List<CustomerMinDto> result = service.findByMin(name);
         return ResponseEntity.ok(result);
+    }
+
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @GetMapping(value = "/me")
+    public ResponseEntity<UsuarioDtoMe> getMe(){
+        UsuarioDtoMe dto = service.getMe();
+        return ResponseEntity.ok(dto);
     }
 }

@@ -2,6 +2,7 @@ package com.sistema.caixa.services;
 
 import com.sistema.caixa.dto.UsuarioDto;
 import com.sistema.caixa.dto.CustomerMinDto;
+import com.sistema.caixa.dto.UsuarioDtoMe;
 import com.sistema.caixa.entities.Role;
 import com.sistema.caixa.entities.Usuario;
 import com.sistema.caixa.projection.CustomerMinProjection;
@@ -13,9 +14,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -99,5 +103,22 @@ public class UsuarioService implements UserDetailsService {
         }
 
         return usuario;
+    }
+
+    protected Usuario autthenticated() {
+        try {
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            Jwt jwtPrincipal = (Jwt) authentication.getPrincipal();
+            String username = jwtPrincipal.getClaim("username");
+            return repository.findByEmail(username).get();
+        }
+        catch (Exception e){
+            throw new UsernameNotFoundException("Usuario não encontrado");
+        }
+    }
+    @Transactional
+    public UsuarioDtoMe getMe(){
+        Usuario usuario = autthenticated();
+        return new UsuarioDtoMe(usuario);
     }
 }
