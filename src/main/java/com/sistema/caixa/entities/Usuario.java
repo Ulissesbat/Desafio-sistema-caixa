@@ -38,6 +38,7 @@ public class Usuario implements UserDetails {
     private Set<Role> roles = new HashSet<>();
 
     public void addRole(Role role){
+
         roles.add(role);
     }
     public boolean hasRole(String roleNome){
@@ -52,11 +53,13 @@ public class Usuario implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
+
         return roles;
     }
 
     @Override
     public String getUsername() {
+
         return email;
     }
 }

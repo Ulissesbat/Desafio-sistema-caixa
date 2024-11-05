@@ -4,10 +4,13 @@ import com.sistema.caixa.dto.CustomError;
 import com.sistema.caixa.dto.ValidationError;
 import com.sistema.caixa.services.exception.BusinessException;
 import com.sistema.caixa.services.exception.DatabaseException;
+import com.sistema.caixa.services.exception.ForbiddenException;
 import com.sistema.caixa.services.exception.ResourceNotFoundException;
 import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -18,6 +21,7 @@ import java.time.Instant;
 
 @ControllerAdvice
 public class ControllerExceptionHandler {
+
 
     @ExceptionHandler(DatabaseException.class)
     public ResponseEntity<CustomError>database(DatabaseException e, HttpServletRequest request){
@@ -53,6 +57,13 @@ public class ControllerExceptionHandler {
         ValidationError error = new ValidationError(Instant.now(), status.value(), "Erro de validação nos campos", request.getRequestURI());
         e.getBindingResult().getFieldErrors().forEach(fieldError ->
                 error.addError(fieldError.getField(), fieldError.getDefaultMessage()));
+        return ResponseEntity.status(status).body(error);
+    }
+
+    @ExceptionHandler(ForbiddenException.class)
+    public ResponseEntity<CustomError> forbidden(ForbiddenException e, HttpServletRequest request){
+        HttpStatus status = HttpStatus.FORBIDDEN;
+        CustomError error = new CustomError(Instant.now(), status.value(),  "Access denied", request.getRequestURI());
         return ResponseEntity.status(status).body(error);
     }
 }

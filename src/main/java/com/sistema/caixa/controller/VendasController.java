@@ -34,7 +34,7 @@ public class VendasController {
         return  ResponseEntity.ok(dto);
     }
 
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_OPERATOR')")
     @GetMapping(value = "/{id}")
     public ResponseEntity<VendaDto> findById(@PathVariable Long id){
         VendaDto venda  = service.findById(id);

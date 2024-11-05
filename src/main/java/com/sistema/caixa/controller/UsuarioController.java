@@ -62,7 +62,7 @@ public class UsuarioController {
         return ResponseEntity.ok(result);
     }
 
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_OPERATOR')")
     @GetMapping(value = "/me")
     public ResponseEntity<UsuarioDtoMe> getMe(){
         UsuarioDtoMe dto = service.getMe();

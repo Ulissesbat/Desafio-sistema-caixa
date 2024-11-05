@@ -14,9 +14,11 @@ import com.sistema.caixa.services.exception.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.oauth2.server.authorization.OAuth2AuthorizationService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,13 +31,18 @@ public class VendaService {
     @Autowired
     private UsuarioRepository clienteRepository;
 
+    @Autowired
+    private AuthService authService;
+
+    @Autowired
+    private UsuarioService service;
+
     @Transactional
     public VendaDto insert(VendaDto dto) {
         Venda entity = new Venda();
 
         // Atribuindo os dados básicos da venda
-        Usuario cliente = clienteRepository.findById(dto.cliente().id())
-                .orElseThrow(() -> new ResourceNotFoundException("Usuario não encontrado: " + dto.cliente().id()));
+        Usuario cliente = service.autthenticated();
 
         entity.setCliente(cliente);
 
@@ -69,7 +76,7 @@ public class VendaService {
         // Definir os itens e valor total da venda
         entity.setItens(itensVenda);
 
-        entity.setDataHora(dto.dataHora());
+        entity.setDataHora(Instant.now());
 
         entity.setValorTotal(entity.calculoTotalDaVenda());
 
@@ -87,6 +94,7 @@ public class VendaService {
     @Transactional(readOnly = true)
     public VendaDto findById(Long id){
         Venda venda = vendaRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Id não encontrado"));
+        authService.validationSelfOrAdmin(venda.getCliente().getId());
         return new VendaDto(venda);
     }
 }
