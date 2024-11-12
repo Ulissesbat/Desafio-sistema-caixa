@@ -11,8 +11,11 @@ import jakarta.persistence.EntityNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -22,6 +25,12 @@ import java.time.Instant;
 @ControllerAdvice
 public class ControllerExceptionHandler {
 
+    @ExceptionHandler(AccessDeniedException.class)
+    public ResponseEntity<CustomError> accessDenied(AccessDeniedException e, HttpServletRequest request) {
+        HttpStatus status = HttpStatus.FORBIDDEN;
+        CustomError error = new CustomError(Instant.now(), status.value(), "Acesso Negado!", request.getRequestURI());
+        return ResponseEntity.status(status).contentType(MediaType.APPLICATION_JSON).body(error);
+    }
 
     @ExceptionHandler(DatabaseException.class)
     public ResponseEntity<CustomError>database(DatabaseException e, HttpServletRequest request){
@@ -39,7 +48,7 @@ public class ControllerExceptionHandler {
 
     @ExceptionHandler(BusinessException.class)
     public ResponseEntity<CustomError> businessException(BusinessException e, HttpServletRequest request) {
-        HttpStatus status = HttpStatus.NOT_FOUND;
+        HttpStatus status = HttpStatus.BAD_REQUEST;
         CustomError error = new CustomError(Instant.now(), status.value(), e.getMessage(), request.getRequestURI());
         return ResponseEntity.status(status).body(error);
     }
@@ -60,10 +69,4 @@ public class ControllerExceptionHandler {
         return ResponseEntity.status(status).body(error);
     }
 
-    @ExceptionHandler(ForbiddenException.class)
-    public ResponseEntity<CustomError> forbidden(ForbiddenException e, HttpServletRequest request){
-        HttpStatus status = HttpStatus.FORBIDDEN;
-        CustomError error = new CustomError(Instant.now(), status.value(),  "Access denied", request.getRequestURI());
-        return ResponseEntity.status(status).body(error);
-    }
 }

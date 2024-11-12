@@ -50,7 +50,6 @@ public class Usuario implements UserDetails {
         return false;
     }
 
-
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
 

@@ -42,7 +42,7 @@ public class VendaService {
         Venda entity = new Venda();
 
         // Atribuindo os dados básicos da venda
-        Usuario cliente = service.autthenticated();
+        Usuario cliente = service.authenticated();
 
         entity.setCliente(cliente);
 

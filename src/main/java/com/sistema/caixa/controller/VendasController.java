@@ -2,6 +2,7 @@ package com.sistema.caixa.controller;
 
 import com.sistema.caixa.dto.VendaDto;
 import com.sistema.caixa.services.VendaService;
+import com.sistema.caixa.services.exception.ForbiddenException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -39,5 +40,10 @@ public class VendasController {
     public ResponseEntity<VendaDto> findById(@PathVariable Long id){
         VendaDto venda  = service.findById(id);
         return ResponseEntity.ok(venda);
+    }
+    @GetMapping("/test-forbidden")
+    public void testForbidden() {
+
+        throw new ForbiddenException("Access denied");
     }
 }

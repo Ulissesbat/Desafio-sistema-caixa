@@ -105,7 +105,7 @@ public class UsuarioService implements UserDetailsService {
         return usuario;
     }
 
-    protected Usuario autthenticated() {
+    protected Usuario authenticated() {
         try {
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
             Jwt jwtPrincipal = (Jwt) authentication.getPrincipal();
@@ -118,7 +118,7 @@ public class UsuarioService implements UserDetailsService {
     }
     @Transactional
     public UsuarioDtoMe getMe(){
-        Usuario usuario = autthenticated();
+        Usuario usuario = authenticated();
         return new UsuarioDtoMe(usuario);
     }
 }
