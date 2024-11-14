@@ -41,9 +41,4 @@ public class VendasController {
         VendaDto venda  = service.findById(id);
         return ResponseEntity.ok(venda);
     }
-    @GetMapping("/test-forbidden")
-    public void testForbidden() {
-
-        throw new ForbiddenException("Access denied");
-    }
 }
